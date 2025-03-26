@@ -12,10 +12,8 @@ The **Facial Recognition System** is designed to authenticate or identify indivi
   - [Milestone 4: MLOps and Monitoring](#milestone-4-mlops-and-monitoring)
   - [Milestone 5: Final Documentation and Presentation](#milestone-5-final-documentation-and-presentation)
 - [Technologies Used](#technologies-used)
-- [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Milestones
 
@@ -54,20 +52,6 @@ The **Facial Recognition System** is designed to authenticate or identify indivi
 - **MLOps Tools:** MLflow, Kubeflow
 - **Deployment Platforms:** Docker, Kubernetes
 
-## Installation
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/yourusername/facial-recognition-system.git
-   cd facial-recognition-system
-   ```
-2. Install dependencies:
-   ```sh
-   pip install -r requirements.txt
-   ```
-3. Run the application:
-   ```sh
-   python app.py
-   ```
 
 ## Usage
 - Run the model to detect and recognize faces from images or video streams.
@@ -75,11 +59,9 @@ The **Facial Recognition System** is designed to authenticate or identify indivi
 - Monitor model performance and retrain if necessary.
 
 ## Contributing
-Contributions are welcome! Please follow these steps:
-1. Fork the repository.
-2. Create a new branch (`feature-branch`).
-3. Commit changes and push to the branch.
-4. Submit a pull request.
+Contributors:
+- sameh sheref zoher
+-
+-
+-
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
