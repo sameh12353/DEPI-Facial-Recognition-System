@@ -1,0 +1,3 @@
+firebase:
+  databaseURL: https://face-recognition-9b48b-default-rtdb.europe-west1.firebasedatabase.app/Students
+  pathToServiceAccount: D:\Study\DEPI\Intelligent-Face-Recognition-Attendance-System-main\database\face-recognition-9b48b-firebase-adminsdk-fbsvc-565c1b1282.json
