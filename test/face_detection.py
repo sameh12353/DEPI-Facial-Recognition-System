@@ -5,6 +5,18 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 from utils import load_yaml
+#$ C:/Users/pc/AppData/Local/Programs/Python/Python312/python.exe d:/Study/DEPI/Project/test/face-detection.py
+# Traceback (most recent call last):
+#   File "d:\Study\DEPI\Project\test\face-detection.py", line 2, in <module>
+#     from detection.face_matching import *
+# ModuleNotFoundError: No module named 'detection'
+################################################################
+# Traceback (most recent call last):
+#   File "d:\Study\DEPI\Project\test\face-detection.py", line 7, in <module>
+#     from detection.face_matching import *
+#   File "d:\Study\DEPI\Project\detection\__init__.py", line 1, in <module>
+#     from face_matching import *
+# ModuleNotFoundError: No module named 'face_matching'
 
 config_file_path = load_yaml("configs/database.yaml")
 

@@ -46,7 +46,9 @@ if filename and os.path.exists(filename):
     cv2.imshow("Captured Image", img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    
+
     # Delete the image after displaying
     os.remove(filename)
     print(f"🗑️ Deleted image: {filename}")
+############################################################
+############################################################

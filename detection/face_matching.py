@@ -36,6 +36,13 @@ def detect_faces(img):
     # Return the list of faces
     return faces
 
+def is_bgr_image(img): ######################### todo: remove this function
+    return (
+        isinstance(img, np.ndarray) and
+        img.dtype == np.uint8 and
+        len(img.shape) == 3 and
+        img.shape[2] == 3
+    )
 
 def extract_features(face):
     '''The function "extract_features" takes a face image as input, converts it to RGB color format,
@@ -53,6 +60,12 @@ def extract_features(face):
         the embedding of the face, which is a numerical representation of the face's features.
 
     '''
+    ###################################################### remove
+    if not is_bgr_image(face):
+        print("❌ Not a valid BGR image")
+    else:
+        print("✅ Image is in BGR format")
+    ######################################################
     # Convert the face to RGB color format
     image = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
     # normalize the pixel values to [0, 1]
@@ -99,9 +112,11 @@ def match_face(embedding, database):
         if distance < min_distance:
             min_distance = distance
             match = name
+            
 
     # If the min_distance is less than a threshold, return the match
     if min_distance < 0.30:
         return match
     else:
         return None
+    
