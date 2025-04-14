@@ -58,7 +58,14 @@ def get_model():
 
 def get_embedding(image,model):
     """
-    Get the face embedding for the given image.
+    Generates a 2622-dimensional embedding vector for a given face image using the specified model.
+
+    Args:
+        image (np.ndarray): A preprocessed image array of shape (224, 224, 3) in RGB format.
+        model (tensorflow.keras.Model): A Keras model that outputs face embeddings.
+
+    Returns:
+        np.ndarray: A 1D NumPy array representing the face embedding vector.
     """
     embedding = model.predict(np.expand_dims(image, axis=0))[0]
     

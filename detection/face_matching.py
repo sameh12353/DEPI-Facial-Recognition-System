@@ -2,6 +2,7 @@ import cv2
 from model import face_embedding_model
 import numpy as np
 from numpy.linalg import norm
+from typing import Optional
 
 # Load the cascade
 face_cascade = cv2.CascadeClassifier(
@@ -10,23 +11,22 @@ face_cascade = cv2.CascadeClassifier(
 # Load the model
 model = face_embedding_model.get_model()
 
-def detect_faces(img):
-    '''The function `detect_faces` takes an image as input, converts it
-    to grayscale, detects faces using a cascade classifier, and returns
-    a list of coordinates representing the detected faces.
+def detect_faces(img :np.ndarray) -> list:
+    '''Detects faces in an input image using Haar Cascade classifier.
     
     Parameters
     ----------
-    img
+    img : np.ndarray
         The input image on which you want to detect faces.
     
     Returns
     -------
-        a list of faces detected in the image.
+    list[tuple[int, int, int, int]]
+        List of face bounding boxes where each box is represented as:
+        (x, y, width, height) - coordinates of top-left corner and dimensions
     '''
     # Convert the image to grayscale
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    # Display the frame
 
     # Detect faces
     faces = face_cascade.detectMultiScale(
@@ -36,7 +36,7 @@ def detect_faces(img):
     # Return the list of faces
     return faces
 
-def is_bgr_image(img): ######################### todo: remove this function
+def is_bgr_image(img :np.ndarray): ######################### todo: remove this function
     return (
         isinstance(img, np.ndarray) and
         img.dtype == np.uint8 and
@@ -44,23 +44,21 @@ def is_bgr_image(img): ######################### todo: remove this function
         img.shape[2] == 3
     )
 
-def extract_features(face):
-    '''The function "extract_features" takes a face image as input, converts it to RGB color format,
-    normalize the pixel values to [0, 1], Resize the image to (224, 224), and uses the  model to predict 
-    the embedding of the face.
+def extract_features(face :np.ndarray) -> np.ndarray:
+    '''Extracts facial features/embeddings from a face image using a pre-trained model.
 
     Parameters
     ----------
-    face
-        The "face" parameter is an image of a face that you want to extract features from. It is expected
-    to be in BGR color format, which is the default color format used by OpenCV.
+    face : np.ndarray
+        Input face image in OpenCV BGR format 
     
     Returns
     -------
-        the embedding of the face, which is a numerical representation of the face's features.
+    np.ndarray
+        A 1D numpy array representing the face embedding (feature vector).
 
     '''
-    ###################################################### remove
+    ###################################################### todo: remove
     if not is_bgr_image(face):
         print("❌ Not a valid BGR image")
     else:
@@ -78,24 +76,25 @@ def extract_features(face):
     return embedding
 
 
-def match_face(embedding, database):
-    '''The function `match_face` takes an input face embedding and a database of face embeddings, and
-    returns the name of the closest matching face in the database if the distance is below a certain
-    threshold, otherwise it returns None.
+def match_face(embedding: np.ndarray, database: dict[str, np.ndarray]) -> Optional[str]:
+    '''Finds the closest matching face in a database for a given face embedding using cosine similarity.
+
+    The function compares an input face embedding against all embeddings in the database
+    and returns the name of the closest match if the similarity distance is below
+    the specified threshold.
     
     Parameters
     ----------
-    embedding
-        The embedding parameter is a numerical representation of a face. It is typically a vector of
-    numbers that captures the unique features of a face.
-    database
-        The database parameter is a dictionary that contains the embeddings of known faces. The keys of the
-    dictionary are the names of the individuals and the values are the corresponding embeddings.
+    embedding : np.ndarray
+        A 1D numpy array representing the face embedding (feature vector)
+    database : dict[str, np.ndarray]
+        A dictionary mapping names (strings) to their corresponding face embeddings.
     
     Returns
     -------
-        the name of the closest match in the database if the minimum distance is less than 0.50. Otherwise,
-    it returns None.
+    Optional[str]
+        The name of the closest matching face if the distance is below threshold,
+        otherwise None.
     
     '''
     min_distance = 100  # Initialize min_distance with a large number

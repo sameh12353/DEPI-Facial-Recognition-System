@@ -1,49 +1,66 @@
 import cv2
 from detection.face_matching import *
+from typing import Optional
 from database.utils import get_face_embeddings_db
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 from utils import load_yaml
-#$ C:/Users/pc/AppData/Local/Programs/Python/Python312/python.exe d:/Study/DEPI/Project/test/face-detection.py
-# Traceback (most recent call last):
-#   File "d:\Study\DEPI\Project\test\face-detection.py", line 2, in <module>
-#     from detection.face_matching import *
-# ModuleNotFoundError: No module named 'detection'
-################################################################
-# Traceback (most recent call last):
-#   File "d:\Study\DEPI\Project\test\face-detection.py", line 7, in <module>
-#     from detection.face_matching import *
-#   File "d:\Study\DEPI\Project\detection\__init__.py", line 1, in <module>
-#     from face_matching import *
-# ModuleNotFoundError: No module named 'face_matching'
 
 config_file_path = load_yaml("configs/database.yaml")
 
-def match_with_database(img, database):
+def match_with_database(img: np.ndarray, database: dict[str, np.ndarray]) -> Optional[str]:
+    """The function detects faces in the input image, extracts their features, and compares them with
+        the embeddings stored in the database. If a match is found, it returns the name of the matched
+
+    Args:
+        img (np.ndarray): Input image in BGR format (OpenCV default) with shape (height, width, 3).
+        database (dict[str, np.ndarray]): Dictionary mapping student names to their pre-computed face embeddings.
+                                          Format: {'name': np.array([embedding_values]), ...}
+
+    Returns:
+        Optional[str]: The name of the matched person if found (None if no match found)
+    """
     # Detect faces in the frame
     faces = detect_faces(img)
 
     for face in faces:
-        try:
-            # Extract features from the face
-            embedding = extract_features(face)
+        # Extract features from the face
+        x, y, w, h = face
+        face_img = img[y:y+h, x:x+w]
 
-            embedding = embedding[0]["embedding"]
+        # Ensure image is in BGR format and dtype is uint8
+        if face_img.dtype != np.uint8:
+            face_img = cv2.convertScaleAbs(face_img)
 
-            # Match the face to a face in the database
-            match = match_face(embedding, database)
+        embedding = extract_features(face_img)
 
-            if match is not None:
-                print(f"Match found: {match}")
-            else:
-                print("No match found")
-        except:
-            print("No face detected")
+        # Match the face to a face in the database
+        match = match_face(embedding, database)
+
+        if match is not None:
+            print(f"Match found: {match}")
+            return match
+            
+    print("No match found")
+    return None
 
 
-def process_frame(frame):
-    """Process each frame for face recognition"""
+def process_frame(frame: np.ndarray) -> np.ndarray:
+    """Processes a video frame for face detection and visualization.
+
+    Performs the following operations:
+    1. Detects faces in the input frame using detect_faces()
+    2. Draws bounding boxes around detected faces
+    3. Labels each detected face with "Face Detected" text
+    4. Returns the annotated frame
+
+    Args:
+        frame (np.ndarray): Input video frame in BGR format (OpenCV default)
+
+    Returns:
+        np.ndarray: The annotated frame with face bounding boxes and labels
+    """
     faces = detect_faces(frame)
     # Display the frame
     for (x, y, w, h) in faces:
@@ -68,7 +85,7 @@ if not firebase_admin._apps:
 # load all the face embeddings from the database
 # and convert them to a dictionary with the name as the key and the embedding as the value
 database = get_face_embeddings_db()
-
+print(database)
 camera_or_image = input("Enter (1) if you have camera\nEnter (2) if you have image: ")
 
 if camera_or_image == "1":
@@ -105,5 +122,5 @@ if camera_or_image == "1":
 
 elif camera_or_image == "2":
     # Read the image from the file
-    img = cv2.imread("D:/Study/DEPI/Project/examples/images/2.png")
+    img = cv2.imread("D:/Study/DEPI/Project/examples/images/images.jpg")
     faces = match_with_database(img, database)

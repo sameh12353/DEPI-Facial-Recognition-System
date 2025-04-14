@@ -1,20 +1,30 @@
 import cv2
 from detection.face_matching import *
+from typing import Optional
 from database.utils import get_face_embeddings_db
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
-
 from utils import load_yaml
 
 config_file_path = load_yaml("configs/database.yaml")
 
-def match_with_database(img, database):
+def match_with_database(img: np.ndarray, database: dict[str, np.ndarray]) -> Optional[str]:
+    """The function detects faces in the input image, extracts their features, and compares them with
+        the embeddings stored in the database. If a match is found, it returns the name of the matched
+
+    Args:
+        img (np.ndarray): Input image in BGR format (OpenCV default) with shape (height, width, 3).
+        database (dict[str, np.ndarray]): Dictionary mapping student names to their pre-computed face embeddings.
+                                          Format: {'name': np.array([embedding_values]), ...}
+
+    Returns:
+        Optional[str]: The name of the matched person if found (None if no match found)
+    """
     # Detect faces in the frame
     faces = detect_faces(img)
 
     for face in faces:
-        print(face)
         # Extract features from the face
         x, y, w, h = face
         face_img = img[y:y+h, x:x+w]
@@ -30,13 +40,27 @@ def match_with_database(img, database):
 
         if match is not None:
             print(f"Match found: {match}")
-        else:
-            print("No match found")
+            return match
+            
+    print("No match found")
+    return None
 
 
+def process_frame(frame: np.ndarray) -> np.ndarray:
+    """Processes a video frame for face detection and visualization.
 
-def process_frame(frame):
-    """Process each frame for face recognition"""
+    Performs the following operations:
+    1. Detects faces in the input frame using detect_faces()
+    2. Draws bounding boxes around detected faces
+    3. Labels each detected face with "Face Detected" text
+    4. Returns the annotated frame
+
+    Args:
+        frame (np.ndarray): Input video frame in BGR format (OpenCV default)
+
+    Returns:
+        np.ndarray: The annotated frame with face bounding boxes and labels
+    """
     faces = detect_faces(frame)
     # Display the frame
     for (x, y, w, h) in faces:
