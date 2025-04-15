@@ -127,6 +127,8 @@ There are several areas where the system could be improved or expanded in the fu
 
 - **Student ID Assignment**: In the future, we plan to optimize the student ID Assignment  process by assigning missing student IDs (e.g., if the IDs are 1,2,3,4,[],6,7,8, the new image's ID will be 5).
 
+- **Add Face Alignment**: Faces in the input images might be tilted or turned, which can reduce the accuracy of your face recognition algorithm. To correct this, we use an alignment algorithm to align the detected faces. This typically involves rotating and scaling the face so that the eyes and mouth are in fixed positions.
+
 - **User Interface Improvements**: We aim to add the aesthetic appeal of the interface to provide a more engaging user experience.
 
 - **Database Image Addition**: We plan to modify this process so that an image is added to the database after the corresponding information is entered.
@@ -135,7 +137,11 @@ There are several areas where the system could be improved or expanded in the fu
 
 - **Security Enhancements**: We plan to implement more secure methods for data handling and user authentication.
 
+- **Class Selection**: If a match is found, you will be redirected to a page where you can select the class. The attendance for the selected class will be updated in the database.
+
 - **Student Login**: In the future, we plan to allow students to log into the system using their passwords.
+
+- **Teacher Login**: If you are a teacher, you can view the attendance by clicking on the "Teacher Login" button on the home page. You will be asked to enter a password. Once the correct password is entered, you will be redirected to the attendance page where you can see the list of students and their attendance.
 
 - **Teacher Database**: We aim to create a separate database for teachers. When the 'Teacher Login' button is pressed, a username and password will be requested.
 
