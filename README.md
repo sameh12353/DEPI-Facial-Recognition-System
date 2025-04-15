@@ -30,8 +30,6 @@ The **Face Recognition Attendance System** comes with a host of features designe
 
 5. **Open Source**: The system is open source. Developers are welcome to contribute and help improve the system.
 
-### Screenshots
-
 
 
 ## Installation
