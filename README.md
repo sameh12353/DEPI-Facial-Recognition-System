@@ -49,7 +49,7 @@ To get the Face Recognition Attendance System up and running on your local machi
 
    **python environment**   
    ```
-   python3.8 -m venv your_env_name
+   python3.12.0 -m venv your_env_name
    ```
 
    ```
