@@ -163,18 +163,3 @@ This project is licensed under the MIT License. This means you are free to use, 
 
 Please note that this project is provided "as is" without any warranty. The authors are not responsible for any damage or issues that may arise from using the project. Always check the code yourself before using it in a production environment.
 
-## Technical Information
-
-### System Architecture Design
-
-Here's a high-level view of the system components and their interactions:
-
-**1. Face Recognition System:**
-This is the core of your project. It will capture images or video frames, detect faces, extract features, and match faces. This system will be developed using Python and OpenCV.
-
-**2. User Interface:**
-This is the part of the system that users (students and instructors) will interact with. It will display information from the Firebase database and send user inputs to the database. The interface will be developed as a web application.
-
-**3. Firebase Database:**
-This is where all the necessary data will be stored. The database will store student information, attendance records, and any other necessary data. The face recognition system and the user interface will both interact with the database to store and retrieve data.
-
